@@ -94,21 +94,23 @@
 				</div>
 				
 			</div> -->
-			<div class="row">
-				<div  v-for="product in products"  class="col-md-4 text-center animate-box fadeInUp animated-fast">
-					<a class="work" >
-						<div class="work-grid" v-bind:style="{ 'background-image': 'url(./daigou_opt/' + product + ')' }">
-							<div class="inner">
-								<div class="desc">
-								<h3>Folding Light</h3>
-								<span class="cat">Branding</span>
-							</div>
-							</div>
-						</div>
-					</a>
+				<div class="row" v-for="productSet in products">
+					<div   class="col-md-4 text-center animate-box fadeInUp animated-fast" v-for=" product in productSet">
+						<a class="work" >
+							<img   class="lazyload" v-bind:src ="'./daigou_opt/' + product" width="100%" :data-src="'./daigou_opt/' + product">
+					<!-- 		<div class="work-grid" v-bind:style="{ 'background-image': 'url(./daigou_opt/' + product + ')' }">
+								<div class="inner">
+									<div class="desc">
+									<h3>Folding Light</h3>
+									<span class="cat">Branding</span>
+								</div>
+								</div>
+							</div> -->
+						</a>
+					</div>
+					
 				</div>
-				
-			</div>
+			
 		</div>
 	</div>
 	
@@ -171,7 +173,7 @@
 	var app = new Vue({
 	    el: '#page',
 	    data: {
-	     	products:"",
+	     	products:[],
 	      },
     created:function(){
     	var formData={
@@ -186,7 +188,12 @@
 		    {
 		       		console.log("get product:  ")
 		       		console.log(data)
-		       		app.products =  data.data
+
+
+		       		while(data.data.length) {
+						   app.products.push(data.data.splice(0,3));
+						}
+
 		    },
 		    error: function (jqXHR, textStatus, errorThrown)
 		    {
